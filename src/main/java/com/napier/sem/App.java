@@ -18,7 +18,7 @@ public class App
         // Connect to database
         a.connect();
         // Get Country
-        Countries ctry = a.getCountries("'ABW'");
+        Countries ctry = a.getCountries();
         // Display results
         a.displayEmployee(ctry);
 
@@ -88,7 +88,7 @@ public class App
     }
 
 
-    public Countries getCountries(String cod)
+    public Countries getCountries()
     {
         try
         {
@@ -97,7 +97,8 @@ public class App
             // Create string for SQL statement
             String strSelect =
                     "SELECT *"
-                            + "FROM country ";
+                            + "FROM country "
+                            + "ORDER BY population ASC";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new country if valid.
@@ -105,8 +106,9 @@ public class App
             if (rset.next())
             {
                 Countries ctry = new Countries();
-                ctry.code = rset.getString("code");
-                ctry.name = rset.getString("name");
+                ctry.code = rset.getString("Code");
+                ctry.name = rset.getString("Name");
+                ctry.population = Integer.parseInt(rset.getString("Population"));
                 return ctry;
             }
             else

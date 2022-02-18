@@ -16,16 +16,16 @@ public class Countries
      */
     public String name;
 
-    /*
+
     /**
      * District
-
-    public String district;
     */
-    /*
+    public String district;
+
+
     /**
      * Population
-
-    public int population;
     */
+    public int population;
+
 }
