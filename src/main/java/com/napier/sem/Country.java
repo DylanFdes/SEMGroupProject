@@ -3,7 +3,7 @@ package com.napier.sem;
 /**
  * Represents an City
  */
-public class Countries
+public class Country
 {
 
     /**
@@ -15,13 +15,6 @@ public class Countries
      * City name
      */
     public String name;
-
-
-    /**
-     * District
-    */
-    public String district;
-
 
     /**
      * Population

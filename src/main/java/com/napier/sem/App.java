@@ -9,23 +9,6 @@ public class App
      */
     private Connection con = null;
 
-    public static void main(String[] args)
-    {
-        // Create new Application
-        App a = new App();
-
-
-        // Connect to database
-        a.connect();
-        // Get Country
-        Countries ctry = a.getCountries();
-        // Display results
-        a.displayEmployee(ctry);
-
-        // Disconnect from database
-        a.disconnect();
-    }
-
     /**
      * Connect to the MySQL database.
      */
@@ -87,28 +70,26 @@ public class App
         }
     }
 
-
-    public Countries getCountries()
+    public Country getCountries()
     {
         try
         {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String strSelect =
-                    "SELECT *"
-                            + "FROM country "
-                            + "ORDER BY population ASC";
+            String sql = "SELECT code, name, population "
+                    + "FROM country "
+                    + "ORDER BY population ASC";
             // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
+            ResultSet rset = stmt.executeQuery(sql);
             // Return new country if valid.
             // Check one is returned
             if (rset.next())
             {
-                Countries ctry = new Countries();
-                ctry.code = rset.getString("Code");
-                ctry.name = rset.getString("Name");
-                ctry.population = Integer.parseInt(rset.getString("Population"));
+                Country ctry = new Country();
+                ctry.code = rset.getString("code");
+                ctry.name = rset.getString("name");
+                ctry.population = rset.getInt("population");
                 return ctry;
             }
             else
@@ -117,21 +98,39 @@ public class App
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
+            System.out.println("Failed to get country data");
             return null;
         }
+
     }
 
-    public void displayEmployee(Countries ctry)
+
+    public void displayEmployee(Country ctry)
     {
         if (ctry != null)
         {
             System.out.println(
                     ctry.code + " "
-                            + ctry.name + " "
-                            + "\n");
+                    + ctry.name + " "
+                    + ctry.population + "\n");
         }
     }
 
+    public static void main(String[] args)
+    {
+        // Create new Application
+        App a = new App();
+
+
+        // Connect to database
+        a.connect();
+        // Get Country
+        Country ctry = a.getCountries();
+        // Display results
+        //a.displayEmployee(ctry);
+
+        // Disconnect from database
+        a.disconnect();
+    }
 
 }
