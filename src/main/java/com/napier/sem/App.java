@@ -116,6 +116,34 @@ public class App
         }
     }
 
+    public void displayRecords()
+    {
+        try
+        {
+            System.out.println("All the countries in the world organised by largest population to smallest");
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String sql = "SELECT code, name, population "
+                    + "FROM country "
+                    + "ORDER BY population DESC";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(sql);
+            // Return new country if valid.
+            // Check one is returned
+            while (rset.next())
+            {
+                System.out.println(rset.getString("name"));
+            }
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country data");
+
+        }
+    }
     public static void main(String[] args)
     {
         // Create new Application
@@ -125,10 +153,10 @@ public class App
         // Connect to database
         a.connect();
         // Get Country
-        Country ctry = a.getCountries();
+        //Country ctry = a.getCountries();
         // Display results
         //a.displayEmployee(ctry);
-
+        a.displayRecords();
         // Disconnect from database
         a.disconnect();
     }
