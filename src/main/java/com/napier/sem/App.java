@@ -70,93 +70,65 @@ public class App
         }
     }
 
-    public Country getCountries()
-    {
-        try
-        {
+    /*
+    All the countries in the world organised by largest population to smallest
+     */
+
+    private void report1() {
+
+        System.out.println("All the countries in the world organised by largest population to smallest");
+        StringBuilder sb  = new StringBuilder();
+        try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String sql = "SELECT code, name, population "
-                    + "FROM country "
-                    + "ORDER BY population ASC";
+            String sql = "select * from country order by Population desc;";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(sql);
             // Return new country if valid.
             // Check one is returned
-            if (rset.next())
-            {
-                Country ctry = new Country();
-                ctry.code = rset.getString("code");
-                ctry.name = rset.getString("name");
-                ctry.population = rset.getInt("population");
-                return ctry;
+            while (rset.next()) {
+                String code = rset.getString("code");
+                String name = rset.getString("name");
+                String continent = rset.getString("continent");
+                String region = rset.getString("region");
+                Integer surfaceArea = rset.getInt("surfaceArea");
+                Integer indepYear = rset.getInt("indepYear");
+                Integer population = rset.getInt("population");
+                Integer lifeExpectancy = rset.getInt("lifeExpectancy");
+                Integer gnp = rset.getInt("gnp");
+                Integer gnpOld = rset.getInt("gnpOld");
+                String localName = rset.getString("localName");
+                String governmentForm = rset.getString("governmentForm");
+                String headOfState = rset.getString("headOfState");
+                Integer capital = rset.getInt("capital");
+                String code2 = rset.getString("code2");
+                Country country = new Country(code, name, continent, region, surfaceArea, indepYear, population,
+                        lifeExpectancy, gnp, gnpOld, localName, governmentForm, headOfState, capital, code2);
+                sb.append(country.toString() + "\r\n");
             }
-            else
-                return null;
-        }
-        catch (Exception e)
-        {
+            // Displays the records
+            System.out.println(sb.toString());
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
-            return null;
+            System.out.println("Failed to get country details");
+            return;
         }
 
     }
 
 
-    public void displayEmployee(Country ctry)
-    {
-        if (ctry != null)
-        {
-            System.out.println(
-                    ctry.code + " "
-                    + ctry.name + " "
-                    + ctry.population + "\n");
-        }
-    }
-
-    public void displayRecords()
-    {
-        try
-        {
-            System.out.println("All the countries in the world organised by largest population to smallest");
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String sql = "SELECT code, name, population "
-                    + "FROM country "
-                    + "ORDER BY population DESC";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(sql);
-            // Return new country if valid.
-            // Check one is returned
-            while (rset.next())
-            {
-                System.out.println(rset.getString("name"));
-            }
-
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
-
-        }
-    }
     public static void main(String[] args)
     {
         // Create new Application
         App a = new App();
 
-
         // Connect to database
         a.connect();
-        // Get Country
-        //Country ctry = a.getCountries();
-        // Display results
-        //a.displayEmployee(ctry);
-        a.displayRecords();
+
+        // Display the Records
+        a.report1();
+
         // Disconnect from database
         a.disconnect();
     }
